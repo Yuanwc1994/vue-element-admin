@@ -42,17 +42,25 @@ export default {
     },
     actions: {
         async FETCH_PERMISSION({ commit, state }) {
-            let permissionList = await fetchPermission()
-            commit('SET_AVATAR', permissionList.avatar)
-            commit('SET_ACCOUNT', permissionList.name)
+            // let permissionList = await fetchPermission() // 获取路由等信息
+            let permissionList = { "avatar": "https://dummyimage.com/300.png/09f/fff", "name": "admin", "roles": ["admin"], "data": ["order-manage", "order-list", "product-manage", "product-list", "review-manage", "return-goods", "goods", "goods-list", "goods-classify", "permission", "user-manage", "role-manage", "menu-manage"] }
+            console.log('permissionList', permissionList);
+            commit('SET_AVATAR', permissionList.avatar) // 设置头像
+            commit('SET_ACCOUNT', permissionList.name) // 设置名称
             let routes = recursionRouter(permissionList.data, dynamicRouter)
+            console.log('routes', routes);
             let MainContainer = DynamicRoutes.find(v => v.path === '')
+            console.log('DynamicRoutes', DynamicRoutes);
+            console.log('MainContainer', MainContainer);
             let children = MainContainer.children
+            console.log('children', children);
             commit('SET_CONTROL_LIST', [...children, ...dynamicRouter])
             children.push(...routes)
+            console.log('children1', children);
             commit('SET_MENU', children)
             let initialRoutes = router.options.routes
             router.addRoutes(DynamicRoutes)
+            console.log(router);
             commit('SET_PERMISSION', [...initialRoutes, ...DynamicRoutes])
         }
     }

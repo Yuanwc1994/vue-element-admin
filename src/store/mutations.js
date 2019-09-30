@@ -1,9 +1,9 @@
 export default {
-    LOGIN_IN(state, token) {
-        state.UserToken = token
+    LOGIN_IN(state, info) {
+        state.UserInfo = info
     },
     LOGIN_OUT(state) {
-        state.UserToken = ''
+        state.UserInfo = ''
     },
     toggleNavCollapse(state) {
         state.isSidebarNavCollapse = !state.isSidebarNavCollapse

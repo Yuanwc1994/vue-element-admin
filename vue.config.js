@@ -1,24 +1,23 @@
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-    .BundleAnalyzerPlugin
 const path = require('path')
 const webpack = require('webpack')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
-// 导入compression-webpack-plugin
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
-// 定义压缩文件类型
-const productionGzipExtensions = ['js', 'css']
+const CompressionWebpackPlugin = require('compression-webpack-plugin') // 导入compression-webpack-plugin
+const productionGzipExtensions = ['js', 'css'] // 定义压缩文件类型
 
 function resolve(dir) {
     return path.join(__dirname, dir)
 }
+
 const proxyTargetMap = {
-    prod: 'https://xxx.xxx.com/',
-    randy: 'http://47.105.71.81:3306',
-    peter: 'http://192.168.11.178:3001'
+    randy: 'https://mos.dpmall.com/', // 正式机 数据地址
+    peter: 'http://47.107.138.9:8082/', // 测试机 数据地址
+    prod: 'http://172.20.15.70:8080/', // 阿乐本地 数据地址
 }
 let proxyTarget = proxyTargetMap[process.env.API_TYPE] || proxyTargetMap.prod
-let publicPath = process.env.NODE_ENV === 'production' ? '/' : '/'
-let dllPublishPath = '/vendor'
+console.log('proxy', proxyTarget);
+let publicPath = process.env.NODE_ENV === 'production' ? './' : './'
+let dllPublishPath = 'vendor'
 module.exports = {
     publicPath: publicPath,
     outputDir: 'dist',
@@ -29,7 +28,7 @@ module.exports = {
     // 是否在保存的时候使用 `eslint-loader` 进行检查。
     // 有效的值：`ture` | `false` | `"error"`
     // 当设置为 `"error"` 时，检查出的错误会触发编译失败。
-    lintOnSave: true,
+    lintOnSave: false,
 
     // 使用带有浏览器内编译器的完整构建版本
     // 查阅 https://cn.vuejs.org/v2/guide/installation.html#运行时-编译器-vs-只包含运行时
@@ -100,12 +99,12 @@ module.exports = {
     devServer: {
         disableHostCheck: true,
         open: process.platform === 'darwin',
-        host: 'localhost',
+        // host: 'localhost',
         port: 8080,
         https: false,
         hotOnly: false,
         // eslint-disable-next-line no-dupe-keys
-        open: true,
+        // open: true,
         // 查阅 https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli/cli-service.md#配置代理
         proxy: {
             '/api': {
@@ -116,7 +115,7 @@ module.exports = {
                 }
             }
         },
-        before: app => {}
+        before: app => { }
     },
     // eslint-disable-next-line no-dupe-keys
     configureWebpack: config => {
@@ -154,7 +153,6 @@ module.exports = {
             // 为开发环境修改配置...
         }
     },
-
     // 第三方插件的选项
     pluginOptions: {}
 }

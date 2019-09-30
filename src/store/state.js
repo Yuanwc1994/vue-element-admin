@@ -1,9 +1,11 @@
 export default {
-    get UserToken() {
-        return localStorage.getItem('token')
+    get UserInfo() {
+        if (localStorage.getItem('UserInfo')) {
+            return JSON.parse(localStorage.getItem('UserInfo'))
+        }
     },
-    set UserToken(value) {
-        localStorage.setItem('token', value)
+    set UserInfo(value) {
+        localStorage.setItem('UserInfo', value)
     },
     /* 导航菜单是否折叠 */
     isSidebarNavCollapse: false,

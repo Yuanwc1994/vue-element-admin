@@ -22,7 +22,7 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
-    if (!store.state.UserToken) {
+    if (!store.state.UserInfo) {
         if (to.matched.length > 0 && !to.matched.some(record => record.meta.requiresAuth)) {
             next()
         } else {

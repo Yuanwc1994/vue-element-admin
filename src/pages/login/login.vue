@@ -1,6 +1,7 @@
 <template>
     <div class="login-container">
-        <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
+        <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm"
+            label-position="left">
             <h3 class="title">后台管理系统</h3>
             <el-form-item prop="username">
                 <span class="svg-container svg-container_login">
@@ -12,42 +13,46 @@
                 <span class="svg-container">
                     <svg-icon icon-class="password"></svg-icon>
                 </span>
-                <el-input name="password" :type="pwdType" @keyup.enter.native="login" v-model="loginForm.password" autoComplete="on"
-                placeholder="password"></el-input>
-                <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
+                <el-input name="password" :type="pwdType" @keyup.enter.native="login" v-model="loginForm.password"
+                    autoComplete="on" placeholder="password"></el-input>
+                <span class="show-pwd" @click="showPwd">
+                    <svg-icon icon-class="eye" /></span>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="login">
-                Sign in
+                    Sign in
                 </el-button>
             </el-form-item>
-            <div class="tips">用户为admin的时候，能够看到所有的权限列表，其余账号只能看到部分</div>
+            <!-- <div class="tips">用户为admin的时候，能够看到所有的权限列表，其余账号只能看到部分</div> -->
         </el-form>
     </div>
 </template>
 
 <script>
 import { login } from '@/api/permission'
+
+import MD5 from 'md5'
+
 export default {
     data() {
         const validateUsername = (rule, value, callback) => {
-            if (value.length < 5) {
+            if (value.length < 3) {
                 callback(new Error('请输入正确的用户名'))
             } else {
                 callback()
             }
         }
         const validatePass = (rule, value, callback) => {
-            if (value.length < 5) {
-                callback(new Error('密码不能小于5位'))
+            if (value.length < 4) {
+                callback(new Error('密码不能小于4位'))
             } else {
                 callback()
             }
         }
         return {
             loginForm: {
-                username: 'admin',
-                password: '123456'
+                username: '132888156',
+                password: '1234'
             },
             loginRules: {
                 username: [
@@ -75,14 +80,19 @@ export default {
         },
         async login() {
             try {
-                let data = await login(this.loginForm)
-                let token = data.token
-                this.$store.commit('LOGIN_IN', token)
+                let params = {
+                    username: this.loginForm.username,
+                    password: MD5(this.loginForm.password).toUpperCase()
+                }
+                let data = await login(params)
+                console.log(111, data);
+                this.$store.commit('LOGIN_IN', JSON.stringify(data))
                 this.$router.replace('/')
             } catch (e) {
                 console.log(e)
             }
         }
+
     }
 }
 </script>
@@ -174,9 +184,9 @@ $light_gray: #eee;
         cursor: pointer;
         user-select: none;
     }
-    .fontcontainer{
-        color:#889aa4;
-        padding-left:10px;
+    .fontcontainer {
+        color: #889aa4;
+        padding-left: 10px;
     }
 }
 </style>
