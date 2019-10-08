@@ -1,22 +1,14 @@
 <template>
     <aside class="aside__top">
-        <span
-            class="iconfont icon-nav toggleNavCollapse"
-            :class="{active:isSidebarNavCollapse}"
-            @click="toggleNavCollapse"
-        >
+        <span class="iconfont icon-nav toggleNavCollapse" :class="{active:isSidebarNavCollapse}" @click="toggleNavCollapse">
         </span>
         <el-breadcrumb separator="/">
             <transition-group name="breadcrumb">
-                <!-- 防止面包屑导航出现 首页/首页， v-if="route.name!='home'" -->
-                <template v-for="(route,i) in crumbList">
-                    <el-breadcrumb-item
-                        :key="route.name"
-                        :to="{name:route.name}"
-                        v-if="route.name!='home' && route.meta.name!='首页'"
-                        :class="{'is-last-link':i==crumbList.length-1}"
-                    >
-                        {{route.meta.name}}
+                <!-- 防止面包屑导航出现 首页/首页， v-if="item.name!='home'" -->
+                <template v-for="(item,i) in crumbList">
+                    <el-breadcrumb-item :key="item.name" :to="{name:item.name}"
+                        v-if="item.name!='home' && item.meta.name!='首页'" :class="{'is-last-link':i==crumbList.length-1}">
+                        {{item.meta.name}}
                     </el-breadcrumb-item>
                 </template>
             </transition-group>
@@ -167,19 +159,5 @@ export default {
             }
         }
     }
-}
-.breadcrumb-enter,
-.breadcrumb-leave-active {
-    opacity: 0;
-    transform: translateX(20px);
-}
-
-.breadcrumb-enter-active,
-.breadcrumb-leave-active {
-    transition: all 0.6s;
-}
-
-.breadcrumb-leave-active {
-    position: absolute;
 }
 </style>

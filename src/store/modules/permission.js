@@ -41,9 +41,29 @@ export default {
         }
     },
     actions: {
-        async FETCH_PERMISSION({ commit, state }) {
-            // let permissionList = await fetchPermission() // 获取路由等信息
-            let permissionList = { "avatar": "https://dummyimage.com/300.png/09f/fff", "name": "admin", "roles": ["admin"], "data": ["order-manage", "order-list", "product-manage", "product-list", "review-manage", "return-goods", "goods", "goods-list", "goods-classify", "permission", "user-manage", "role-manage", "menu-manage"] }
+        FETCH_PERMISSION({ commit, state }) {
+            let userInfo = JSON.parse(localStorage.getItem('UserInfo'))
+            console.log('获取客户信息userInfo', userInfo);
+            let permissionList = {
+                avatar: "https://dpmall-product.oss-cn-shenzhen.aliyuncs.com/zhuxiaobaoImg/wode_touxiang@2x.png",
+                name: userInfo.userName,
+                roles: ["admin"],
+                data: [
+                    "order-manage",
+                    "order-list",
+                    "product-manage",
+                    "product-list",
+                    "review-manage",
+                    "return-goods",
+                    "goods",
+                    "goods-list",
+                    "goods-classify",
+                    "permission",
+                    "user-manage",
+                    "role-manage",
+                    "menu-manage"
+                ]
+            }
             console.log('permissionList', permissionList);
             commit('SET_AVATAR', permissionList.avatar) // 设置头像
             commit('SET_ACCOUNT', permissionList.name) // 设置名称

@@ -85,7 +85,6 @@ export default {
                     password: MD5(this.loginForm.password).toUpperCase()
                 }
                 let data = await login(params)
-                console.log(111, data);
                 this.$store.commit('LOGIN_IN', JSON.stringify(data))
                 this.$router.replace('/')
             } catch (e) {
