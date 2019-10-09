@@ -40,7 +40,7 @@
     transition: margin-left 0.25s;
     position: relative;
     box-sizing: border-box;
-    padding: 60px 20px 0 20px;
+    padding: 94px 20px 0 20px;
 }
 
 /* 折叠菜单下的样式 */
@@ -61,6 +61,9 @@
         margin-left: 64px;
     }
     .aside_top {
+        left: 64px !important;
+    }
+    .tags-view-container {
         left: 64px !important;
     }
 }

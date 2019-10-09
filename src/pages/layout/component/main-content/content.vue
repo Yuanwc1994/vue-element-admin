@@ -1,6 +1,8 @@
 <template>
     <transition name="fade-transform" mode="out-in">
-        <router-view class="content"></router-view>
+        <keep-alive>
+            <router-view class="content"></router-view>
+        </keep-alive>
     </transition>
 </template>
 

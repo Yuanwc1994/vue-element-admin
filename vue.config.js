@@ -49,6 +49,12 @@ module.exports = {
         // 移除 prefetch 插件,解决组件懒加载失效的问题
         config.plugins.delete('prefetch')
         // 添加新的svg-sprite-loader处理svgIcon
+        config.resolve.alias
+            .set("@", resolve("src"))
+            // .set("ajax", resolve("src/ajax"))
+            // .set("view", resolve("src/view"))
+            // .set("assets", resolve("src/assets"))
+            // .set("components", resolve("src/components"));
         config.module
             .rule('svgIcon')
             .test(/\.svg$/)
@@ -62,9 +68,8 @@ module.exports = {
                 }
                 return options
             })
-
-        // 原有的svg图像处理loader添加exclude
-        config.module
+            // 原有的svg图像处理loader添加exclude
+            config.module
             .rule('svg')
             .exclude.add(resolve('src/icons'))
             .end()

@@ -4,10 +4,10 @@
         </span>
         <el-breadcrumb separator="/">
             <transition-group name="breadcrumb">
-                <!-- 防止面包屑导航出现 首页/首页， v-if="item.name!='home'" -->
+                <!-- 防止面包屑导航出现 首页/首页， v-if="item.name!='home'" :to="{name:item.name}"-->
                 <template v-for="(item,i) in crumbList">
-                    <el-breadcrumb-item :key="item.name" :to="{name:item.name}"
-                        v-if="item.name!='home' && item.meta.name!='首页'" :class="{'is-last-link':i==crumbList.length-1}">
+                    <el-breadcrumb-item :key="item.name" v-if="item.name!='home' && item.meta.name!='首页'"
+                        :class="{'is-last-link':i==crumbList.length-1}">
                         {{item.meta.name}}
                     </el-breadcrumb-item>
                 </template>
@@ -157,6 +157,21 @@ export default {
                 font-size: 24px;
                 color: #758eb5;
             }
+        }
+    }
+}
+</style>
+
+<style lang="scss">
+.aside_top {
+    .el-breadcrumb__inner {
+        display: inline-block;
+    }
+    .is-last-link {
+        .el-breadcrumb__inner {
+            display: inline-block;
+            font-weight: normal;
+            color: #999 !important;
         }
     }
 }

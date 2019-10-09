@@ -2,19 +2,19 @@
     <div class="login-container">
         <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm"
             label-position="left">
-            <h3 class="title">后台管理系统</h3>
+            <h3 class="title">东鹏-助销宝</h3>
             <el-form-item prop="username">
                 <span class="svg-container svg-container_login">
                     <svg-icon icon-class="user" />
                 </span>
-                <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+                <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="账号" />
             </el-form-item>
             <el-form-item prop="password">
                 <span class="svg-container">
                     <svg-icon icon-class="password"></svg-icon>
                 </span>
                 <el-input name="password" :type="pwdType" @keyup.enter.native="login" v-model="loginForm.password"
-                    autoComplete="on" placeholder="password"></el-input>
+                    autoComplete="on" placeholder="密码"></el-input>
                 <span class="show-pwd" @click="showPwd">
                     <svg-icon icon-class="eye" /></span>
             </el-form-item>
@@ -113,7 +113,7 @@ $light_gray: #eee;
             border-radius: 0px;
             padding: 12px 5px 12px 15px;
             color: $light_gray;
-            height: 47px;
+            height: 48px;
             &:-webkit-autofill {
                 -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
                 -webkit-text-fill-color: #fff !important;
