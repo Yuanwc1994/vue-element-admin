@@ -1,5 +1,5 @@
 <template>
-    <aside class="aside__top">
+    <aside class="aside_top">
         <span class="iconfont icon-nav toggleNavCollapse" :class="{active:isSidebarNavCollapse}" @click="toggleNavCollapse">
         </span>
         <el-breadcrumb separator="/">
@@ -13,7 +13,7 @@
                 </template>
             </transition-group>
         </el-breadcrumb>
-        <div class="aside__top--right">
+        <div class="aside_top_right">
             <div class="user-msg">
                 <img class="user-img" :src="avatar" alt="">
                 <span class="user-name">{{account}}</span>
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.aside__top {
+.aside_top {
     border-bottom: 1px solid #e5e5e5;
     height: 50px;
     line-height: 50px;
@@ -84,7 +84,7 @@ export default {
         }
     }
 
-    .aside__top--right {
+    .aside_top_right {
         position: absolute;
         right: 10px;
         top: -1px;

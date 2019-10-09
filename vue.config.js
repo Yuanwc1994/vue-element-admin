@@ -10,9 +10,9 @@ function resolve(dir) {
 }
 
 const proxyTargetMap = {
-    randy: 'https://mos.dpmall.com/', // 正式机 数据地址
-    peter: 'http://47.107.138.9:8082/', // 测试机 数据地址
-    prod: 'http://172.20.15.70:8080/', // 阿乐本地 数据地址
+    randy: 'https://mos.dpmall.com/', // 本地开发 连 正式机数据
+    peter: 'http://47.107.138.9:8082/', // 本地开发 连 测试机数据
+    prod: 'http://172.20.15.70:8080/', // 本地开发 连 阿乐数据
 }
 let proxyTarget = proxyTargetMap[process.env.API_TYPE] || proxyTargetMap.prod
 console.log('proxy', proxyTarget);

@@ -45,9 +45,9 @@ export default {
             let userInfo = JSON.parse(localStorage.getItem('UserInfo'))
             console.log('获取客户信息userInfo', userInfo);
             let permissionList = {
-                avatar: "https://dpmall-product.oss-cn-shenzhen.aliyuncs.com/zhuxiaobaoImg/wode_touxiang@2x.png",
+                avatar: userInfo.toux || "https://dpmall-product.oss-cn-shenzhen.aliyuncs.com/zhuxiaobaoImg/wode_touxiang@2x.png",
                 name: userInfo.userName,
-                roles: ["admin"],
+                roles: [userInfo.roleCode],
                 data: [
                     "order-manage",
                     "order-list",
