@@ -7,6 +7,12 @@ import Forbidden from '@/pages/errorPage/403'
 import Layout from '@/pages/layout/index'
 import Home from '@/pages/home/index'
 
+
+/* 统计报表 */
+const Statistical = () => import('@/pages/statistical-statement')
+const StatisticalBusiness = () => import('@/pages/statistical-statement/statistical-business')
+const StatisticalInside = () => import('@/pages/statistical-statement/statistical-inside')
+
 Vue.use(Router)
 
 /* 初始路由 */
@@ -23,8 +29,8 @@ export default new Router({
 export const DynamicRoutes = [
     {
         path: '',
-        component: Layout,
         name: 'container',
+        component: Layout,
         redirect: 'home',
         meta: {
             requiresAuth: true,
@@ -50,5 +56,34 @@ export const DynamicRoutes = [
     {
         path: '*',
         component: NotFound
-    }
+    },
+    {
+        path: '/statistical',
+        name: 'statistical',
+        component: Statistical,
+        meta: {
+            name: '统计报表',
+            icon: 'user'
+        },
+        children: [
+            {
+                path: 'business',
+                name: 'statistical-business',
+                component: StatisticalBusiness,
+                meta: {
+                    name: '商家报表',
+                    icon: 'table'
+                }
+            },
+            {
+                path: 'inside',
+                name: 'statistical-inside',
+                component: StatisticalInside,
+                meta: {
+                    name: '内部报表',
+                    icon: 'tree'
+                }
+            }
+        ]
+    },
 ]

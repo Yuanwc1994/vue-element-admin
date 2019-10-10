@@ -70,6 +70,9 @@ export default {
             pwdType: 'password'
         }
     },
+    mounted() {
+        // this.login() //默认账号自动登录
+    },
     methods: {
         showPwd() {
             if (this.pwdType === 'password') {

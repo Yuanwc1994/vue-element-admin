@@ -41,26 +41,18 @@ export default {
     },
     actions: {
         FETCH_PERMISSION({ commit, state }) {
+            // let userInfo = localStorage.getItem('UserInfo')
             let userInfo = JSON.parse(localStorage.getItem('UserInfo'))
             console.log('获取客户信息userInfo', userInfo);
             let permissionList = {
                 avatar: userInfo.toux || "https://dpmall-product.oss-cn-shenzhen.aliyuncs.com/zhuxiaobaoImg/wode_touxiang@2x.png",
                 name: userInfo.userName,
                 roles: [userInfo.roleCode],
+                // $route.name 作为动态菜单列表
                 data: [
-                    "order-manage",
-                    "order-list",
-                    "product-manage",
-                    "product-list",
-                    "review-manage",
-                    "return-goods",
-                    "goods",
-                    "goods-list",
-                    "goods-classify",
-                    "permission",
-                    "user-manage",
-                    "role-manage",
-                    "menu-manage"
+                    "statistical",
+                    "statistical-business",
+                    "statistical-inside",
                 ]
             }
             console.log('permissionList', permissionList);
