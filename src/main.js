@@ -12,6 +12,8 @@ import * as globalFilter from './filters/filters'
 import '@/icons'
 
 Vue.prototype.$http = axios
+// 创建事件总线
+Vue.prototype.$EventBus = new Vue();
 
 for (var key in globalFilter) {
     Vue.filter(key, globalFilter[key])

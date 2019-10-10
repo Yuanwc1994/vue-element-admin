@@ -8,7 +8,7 @@
       <el-button
         style="float: right; padding: 3px 0"
         type="text"
-      >操作按钮</el-button>
+      @click="reload()" >操作按钮</el-button>
     </div>
     <div
       v-for="o in 4"
@@ -19,7 +19,11 @@
     </div>
   </el-card>
 </template>
-
+<script>
+export default {
+    inject: ['reload'],
+}
+</script>
 <style>
 .text {
     font-size: 14px;

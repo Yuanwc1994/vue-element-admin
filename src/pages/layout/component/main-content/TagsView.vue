@@ -10,11 +10,11 @@
             </router-link>
         </scroll-pane>
         <!-- <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">{{ $t('tagsView.refresh') }}</li>
-      <li @click="closeSelectedTag(selectedTag)">{{ $t('tagsView.close') }}</li>
-      <li @click="closeOthersTags">{{ $t('tagsView.closeOthers') }}</li>
-      <li @click="closeAllTags">{{ $t('tagsView.closeAll') }}</li>
-    </ul> -->
+            <li @click="refreshSelectedTag(selectedTag)">刷新标签</li>
+            <li @click="closeSelectedTag(selectedTag)">关闭标签</li>
+            <li @click="closeOthersTags">关闭其他标签</li>
+            <li @click="closeAllTags">关闭所有标签</li>
+        </ul> -->
     </div>
 </template>
 
@@ -87,11 +87,12 @@ export default {
         refreshSelectedTag(view) {
             this.$store.dispatch('delCachedView', view).then(() => {
                 const { fullPath } = view
-                this.$nextTick(() => {
+                /* this.$nextTick(() => {
                     this.$router.replace({
                         path: '/redirect' + fullPath
                     })
-                })
+                }) */
+                this.$EventBus.$emit("refreshTag");
             })
         },
         closeSelectedTag(view) {
@@ -183,10 +184,11 @@ export default {
         }
     }
     .contextmenu {
-        margin: 0;
+        margin: -30px 0 0 0;
         background: #fff;
         z-index: 100;
         position: absolute;
+        top: 0;
         list-style-type: none;
         padding: 5px 0;
         border-radius: 4px;
