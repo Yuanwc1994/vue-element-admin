@@ -65,7 +65,7 @@ export default {
     line-height: 50px;
     position: fixed;
     left: 200px;
-    min-width: 768px;
+    min-width: 992px;
     top: 0;
     right: 0;
     background: #fff;

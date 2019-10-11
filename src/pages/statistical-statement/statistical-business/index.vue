@@ -11,7 +11,7 @@
 <script>
 import API from '@/api/permission'
 export default {
-    name: 'my-provinces',
+    name: 'buiness',
     data() {
         return {
             departmentOptions: [],
@@ -124,13 +124,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.el-container {
-    min-width: 768px;
-    .el-header {
-        padding: 0;
-    }
-    .el-main {
-        padding: 0;
-    }
-}
+
 </style>

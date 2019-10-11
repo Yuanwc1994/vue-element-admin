@@ -36,6 +36,23 @@
     }
 }
 
+// 布局
+.el-container {
+    min-width: 992px;
+    .el-header {
+        padding: 0;
+    }
+    .el-main {
+        padding: 0;
+    }
+}
+// 日期 '至'
+.el-date-editor {
+    .el-range-separator {
+        width: 8%;
+
+    }
+}
 
 
 
