@@ -1,17 +1,136 @@
 <template>
-    <div>
-        <el-progress type="circle" :percentage="0"></el-progress>
-        <el-progress type="circle" :percentage="25"></el-progress>
-        <el-progress type="circle" :percentage="100" status="success"></el-progress>
-        <el-progress type="circle" :percentage="70" status="warning"></el-progress>
-        <el-progress type="circle" :percentage="50" status="exception"></el-progress>
-    </div>
+    <el-container>
+        <el-header>
+            <el-cascader v-model="selectedOptions" placeholder="请选择区域" :options="cascaderData" @expand-change="handleItemChange"
+                :props="props" ref="areaCascader" :show-all-levels="false">
+            </el-cascader>
+        </el-header>
+        <el-main>Main</el-main>
+    </el-container>
 </template>
-
 <script>
+import API from '@/api/permission'
 export default {
+    name: 'my-provinces',
     data() {
-        return {}
+        return {
+            departmentOptions: [],
+            cascaderData: [],
+            selectedOptions: [],
+            props: {
+                value: 'id',
+                label: 'name',
+                children: 'areas'
+            }
+        }
+    },
+    mounted() {
+        this.getNodes()
+    },
+    methods: {
+        getNodes(val) {
+            console.log(11111, val);
+            let idArea
+            let sizeArea
+            if (!val) {
+                idArea = 54
+                sizeArea = 0
+            } else if (val.length === 1) {
+                idArea = val[0]
+                sizeArea = val.length // 3:一级 4:二级 6:三级
+            } else if (val.length === 2) {
+                idArea = val[1]
+                sizeArea = val.length // 3:一级 4:二级 6:三级
+            } else if (val.length === 3) {
+                idArea = val[2]
+                sizeArea = val.length // 3:一级 4:二级 6:三级
+            }
+            API.orgList(idArea).then(response => {
+                if (response.data && response.resultCode == '200') {
+                    let Items = response.data
+                    if (sizeArea === 0) { // 初始化 加载一级 省
+                        this.cascaderData = Items.childOrgs.map((value, i) => {
+                            return {
+                                id: value.id,
+                                name: value.orgName,
+                                areas: []
+                            }
+                        })
+                    } else if (sizeArea === 1) { // 点击一级 加载二级 市
+                        this.cascaderData.map((value, i) => {
+                            if (value.id === val[0]) {
+                                if (!value.areas.length) {
+                                    value.areas = Items.childOrgs.map((value, i) => {
+                                        return {
+                                            id: value.id,
+                                            name: value.orgName,
+                                            areas: []
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                    } else if (sizeArea === 2) { // 点击二级 加载三级 区
+                        this.cascaderData.map((value, i) => {
+                            if (value.id === val[0]) {
+                                value.areas.map((value, i) => {
+                                    if (value.id === val[1]) {
+                                        if (!value.areas.length) {
+                                            value.areas = Items.childOrgs.map((value, i) => {
+                                                return {
+                                                    id: value.id,
+                                                    name: value.orgName,
+                                                    areas: []
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    } else if (sizeArea === 3) { // 点击二级 加载三级 区
+                        this.cascaderData.map((value, i) => {
+                            if (value.id === val[0]) {
+                                value.areas.map((value, i) => {
+                                    if (value.id === val[1]) {
+                                        value.areas.map((value, i) => {
+                                            if (value.id === val[2]) {
+                                                if (!value.areas.length) {
+                                                    value.areas = Items.childOrgs.map((value, i) => {
+                                                        return {
+                                                            id: value.id,
+                                                            name: value.orgName
+                                                        }
+                                                    })
+                                                }
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                } else {
+                    console.log(response.message)
+                }
+            }, error => {
+                console.log(error)
+            })
+        },
+        handleItemChange(val) {
+            this.getNodes(val)
+        }
     }
 }
 </script>
+<style lang="scss" scoped>
+.el-container {
+    min-width: 768px;
+    .el-header {
+        padding: 0;
+    }
+    .el-main {
+        padding: 0;
+    }
+}
+</style>

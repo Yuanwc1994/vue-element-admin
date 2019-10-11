@@ -43,7 +43,7 @@ export default {
         FETCH_PERMISSION({ commit, state }) {
             // let userInfo = localStorage.getItem('UserInfo')
             let userInfo = JSON.parse(localStorage.getItem('UserInfo'))
-            console.log('获取客户信息userInfo', userInfo);
+            // console.log('获取客户信息userInfo', userInfo);
             let permissionList = {
                 avatar: userInfo.toux || "https://dpmall-product.oss-cn-shenzhen.aliyuncs.com/zhuxiaobaoImg/wode_touxiang@2x.png",
                 name: userInfo.userName,
@@ -55,23 +55,23 @@ export default {
                     "statistical-inside",
                 ]
             }
-            console.log('permissionList', permissionList);
+            // console.log('permissionList', permissionList);
             commit('SET_AVATAR', permissionList.avatar) // 设置头像
             commit('SET_ACCOUNT', permissionList.name) // 设置名称
             let routes = recursionRouter(permissionList.data, dynamicRouter)
-            console.log('routes', routes);
+            // console.log('routes', routes);
             let MainContainer = DynamicRoutes.find(v => v.path === '')
-            console.log('DynamicRoutes', DynamicRoutes);
-            console.log('MainContainer', MainContainer);
+            // console.log('DynamicRoutes', DynamicRoutes);
+            // console.log('MainContainer', MainContainer);
             let children = MainContainer.children
-            console.log('children', children);
+            // console.log('children', children);
             commit('SET_CONTROL_LIST', [...children, ...dynamicRouter])
             children.push(...routes)
-            console.log('children1', children);
+            // console.log('children1', children);
             commit('SET_MENU', children)
             let initialRoutes = router.options.routes
             router.addRoutes(DynamicRoutes)
-            console.log(router);
+            // console.log(router);
             commit('SET_PERMISSION', [...initialRoutes, ...DynamicRoutes])
         }
     }

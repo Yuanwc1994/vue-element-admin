@@ -57,7 +57,7 @@ export const DynamicRoutes = [
         path: '*',
         component: NotFound
     },
-    {
+    /* {
         path: '/statistical',
         name: 'statistical',
         component: Statistical,
@@ -85,5 +85,5 @@ export const DynamicRoutes = [
                 }
             }
         ]
-    },
+    }, */
 ]

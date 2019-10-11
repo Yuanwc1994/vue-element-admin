@@ -108,7 +108,7 @@ http.get = function (url, options) {
                 } */
                 loadingInstance.close();
                 if (response.resultCode === 200) {
-                    resolve(response.data)
+                    resolve(response)
                 } else {
                     Message.error({
                         message: response.message,
@@ -144,7 +144,7 @@ http.post = function (url, data, options) {
                 } */
                 loadingInstance.close();
                 if (response.resultCode === 200) {
-                    resolve(response.data)
+                    resolve(response)
                 } else {
                     Message.error({
                         message: response.message,
