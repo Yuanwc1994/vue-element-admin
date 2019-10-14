@@ -74,13 +74,14 @@ instance.interceptors.response.use(
     },
     err => {
         if (err && err.response) {
-            console.log(1);
+            console.log(err);
         } else {
             err.message = '连接服务器失败'
         }
-        // Message.error({
-        //     message: err.message
-        // })
+        Message.closeAll()
+        Message.error({
+            message: err.message
+        })
         return Promise.reject(err.response)
     }
 )

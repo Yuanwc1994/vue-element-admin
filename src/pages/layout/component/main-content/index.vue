@@ -8,7 +8,7 @@
 
 <script>
 import TopAside from './top-aside'
-import TagsView from './TagsView'
+import TagsView from './tags-view'
 import Content from './content'
 import { mapState } from 'vuex'
 

@@ -51,10 +51,10 @@ module.exports = {
         // 添加新的svg-sprite-loader处理svgIcon
         config.resolve.alias
             .set("@", resolve("src"))
-            // .set("ajax", resolve("src/ajax"))
-            // .set("view", resolve("src/view"))
-            // .set("assets", resolve("src/assets"))
-            // .set("components", resolve("src/components"));
+        // .set("ajax", resolve("src/ajax"))
+        // .set("view", resolve("src/view"))
+        // .set("assets", resolve("src/assets"))
+        // .set("components", resolve("src/components"));
         config.module
             .rule('svgIcon')
             .test(/\.svg$/)
@@ -68,8 +68,8 @@ module.exports = {
                 }
                 return options
             })
-            // 原有的svg图像处理loader添加exclude
-            config.module
+        // 原有的svg图像处理loader添加exclude
+        config.module
             .rule('svg')
             .exclude.add(resolve('src/icons'))
             .end()
@@ -85,7 +85,11 @@ module.exports = {
 
         // 为预处理器的 loader 传递自定义选项。比如传递给
         // sass-loader 时，使用 `{ sass: { ... } }`。
-        loaderOptions: {},
+        loaderOptions: {
+            sass: {
+                data: ` @import "./src/styles/global_var.scss"; `
+            },
+        },
 
         // 为所有的 CSS 及其预处理文件开启 CSS Modules。
         // 这个选项不会影响 `*.vue` 文件。

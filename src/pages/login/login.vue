@@ -83,13 +83,22 @@ export default {
         },
         async login() {
             try {
-                let params = {
-                    username: this.loginForm.username,
-                    password: MD5(this.loginForm.password).toUpperCase()
+                if (this.loginForm.username && this.loginForm.password) {
+                    let params = {
+                        username: this.loginForm.username,
+                        password: MD5(this.loginForm.password).toUpperCase()
+                    }
+                    let data = await login(params)
+                    this.$store.commit('LOGIN_IN', JSON.stringify(data))
+                    this.$router.replace('/')
+                } else {
+                    this.$message.closeAll()
+                    this.$message({
+                        message: "请输入账号密码信息后重新登录",
+                        duration: 2000,
+                        type: 'warning',
+                    });
                 }
-                let data = await login(params)
-                this.$store.commit('LOGIN_IN', JSON.stringify(data))
-                this.$router.replace('/')
             } catch (e) {
                 console.log(e)
             }
