@@ -45,73 +45,70 @@ export default {
                 idArea = val[2]
                 sizeArea = val.length // 3:一级 4:二级 6:三级
             }
-            API.orgList(idArea).then(response => {
-                if (response.data && response.resultCode == '200') {
-                    let Items = response.data
-                    if (sizeArea === 0) { // 初始化 加载一级 省
-                        this.cascaderData = Items.childOrgs.map((value, i) => {
-                            return {
-                                id: value.id,
-                                name: value.orgName,
-                                areas: []
-                            }
-                        })
-                    } else if (sizeArea === 1) { // 点击一级 加载二级 市
-                        this.cascaderData.map((value, i) => {
-                            if (value.id === val[0]) {
-                                if (!value.areas.length) {
-                                    value.areas = Items.childOrgs.map((value, i) => {
-                                        return {
-                                            id: value.id,
-                                            name: value.orgName,
-                                            areas: []
-                                        }
-                                    })
-                                }
-                            }
-                        })
-                    } else if (sizeArea === 2) { // 点击二级 加载三级 区
-                        this.cascaderData.map((value, i) => {
-                            if (value.id === val[0]) {
-                                value.areas.map((value, i) => {
-                                    if (value.id === val[1]) {
-                                        if (!value.areas.length) {
-                                            value.areas = Items.childOrgs.map((value, i) => {
-                                                return {
-                                                    id: value.id,
-                                                    name: value.orgName,
-                                                    areas: []
-                                                }
-                                            })
-                                        }
+            API.orgList(idArea).then(res => {
+                let Items = res
+                console.log(Items);
+                if (sizeArea === 0) { // 初始化 加载一级 省
+                    this.cascaderData = Items.childOrgs.map((value, i) => {
+                        return {
+                            id: value.id,
+                            name: value.orgName,
+                            areas: []
+                        }
+                    })
+                } else if (sizeArea === 1) { // 点击一级 加载二级 市
+                    this.cascaderData.map((value, i) => {
+                        if (value.id === val[0]) {
+                            if (!value.areas.length) {
+                                value.areas = Items.childOrgs.map((value, i) => {
+                                    return {
+                                        id: value.id,
+                                        name: value.orgName,
+                                        areas: []
                                     }
                                 })
                             }
-                        })
-                    } else if (sizeArea === 3) { // 点击二级 加载三级 区
-                        this.cascaderData.map((value, i) => {
-                            if (value.id === val[0]) {
-                                value.areas.map((value, i) => {
-                                    if (value.id === val[1]) {
-                                        value.areas.map((value, i) => {
-                                            if (value.id === val[2]) {
-                                                if (!value.areas.length) {
-                                                    value.areas = Items.childOrgs.map((value, i) => {
-                                                        return {
-                                                            id: value.id,
-                                                            name: value.orgName
-                                                        }
-                                                    })
-                                                }
+                        }
+                    })
+                } else if (sizeArea === 2) { // 点击二级 加载三级 区
+                    this.cascaderData.map((value, i) => {
+                        if (value.id === val[0]) {
+                            value.areas.map((value, i) => {
+                                if (value.id === val[1]) {
+                                    if (!value.areas.length) {
+                                        value.areas = Items.childOrgs.map((value, i) => {
+                                            return {
+                                                id: value.id,
+                                                name: value.orgName,
+                                                areas: []
                                             }
                                         })
                                     }
-                                })
-                            }
-                        })
-                    }
-                } else {
-                    console.log(response.message)
+                                }
+                            })
+                        }
+                    })
+                } else if (sizeArea === 3) { // 点击二级 加载三级 区
+                    this.cascaderData.map((value, i) => {
+                        if (value.id === val[0]) {
+                            value.areas.map((value, i) => {
+                                if (value.id === val[1]) {
+                                    value.areas.map((value, i) => {
+                                        if (value.id === val[2]) {
+                                            if (!value.areas.length) {
+                                                value.areas = Items.childOrgs.map((value, i) => {
+                                                    return {
+                                                        id: value.id,
+                                                        name: value.orgName
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
                 }
             }, error => {
                 console.log(error)
@@ -124,5 +121,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 </style>
