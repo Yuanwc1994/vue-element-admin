@@ -1,7 +1,6 @@
 <template>
-    <!-- 首页tabbar -->
-    <div class="container">
-        <h3 class="title">各项指标排名</h3>
+    <div class="various_indicators">
+        <h3 class="titleName">各项指标排名</h3>
         <div class="options_box">
             <div class="item" :class="{act:list_type==='daqu'}" @click="list_type_event('daqu')">大区</div>
             <div class="item" :class="{act:list_type==='yingxiao'}" @click="list_type_event('yingxiao')">营销部</div>
@@ -11,14 +10,13 @@
             <div class="item" :class="{act:list_type==='chengshi'}" @click="list_type_event('chengshi')">城市</div>
         </div>
         <div v-if="res_data.length===0" class="empty_data">暂无数据</div>
-        <div class="scroll_box" @touchmove.stop>
+        <div class="scroll_box" v-if="res_data.length>0">
             <div class="table_1">
-                <table class="table_css" border="0" cellpadding="0" cellspacing="0" v-if="res_data.length>0">
+                <table class="table_css" border="0" cellpadding="0" cellspacing="0">
                     <tr class="first_tr">
                         <td class="p_left">
                             <div class="th_span_box">
                                 <span style="opacity: 0;">序号</span>
-                                <!-- <span class="paixu_img" :class="[list_arr_sort_items[index].type]"></span> -->
                             </div>
                         </td>
                         <td>
@@ -27,7 +25,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr v-show="index<list_limit" v-for="(item,index) in res_data" :key="index">
+                    <tr v-for="(item,index) in res_data" :key="index" v-show="index<list_limit">
                         <td class="p_left" :class="{bold:index<3}">
                             <span>{{index+1}}</span>
                         </td>
@@ -41,23 +39,21 @@
                                     <span>样板</span>
                                 </div>
                             </span>
-                            <span class="show_dt" v-show="show_dt_index===index">{{item.orgName}}</span>
+                            <!-- <span class="show_dt" v-show="show_dt_index===index">{{item.orgName}}</span> -->
                         </td>
                     </tr>
                 </table>
             </div>
 
             <div class="table_2">
-                <table class="table_css" border="0" cellpadding="0" cellspacing="0" v-if="res_data.length>0">
+                <table class="table_css" border="0" cellpadding="0" cellspacing="0">
                     <tr class="first_tr">
-                        <td v-for="(item,index) in list_arr_sort_items" :key="'th'+index"
-                            :class="[(list_arr_sort_items.length==index+1)?'last':'']">
+                        <td v-for="(item,index) in list_arr_sort_items" :key="'th'+index">
                             <div v-if="item.name!='null'" class="th_span_box" :class="[item.type]" @click="sort_list(index)">
-                                <span v-html="item.th_name"></span>
-                                <span class="paixu_img"></span>
+                                <span>{{item.th_name}}<i class="paixu_img"></i></span>
                             </div>
                             <div v-if="item.name==='null'" class="th_span_box" :class="[item.type]">
-                                <span v-html="item.th_name"></span>
+                                <span>{{item.th_name}}</span>
                             </div>
                         </td>
                     </tr>
@@ -66,54 +62,61 @@
                         <td :class="[list_arr_sort_items[1].type,index<3?'bold':'']">{{item.acceptTime?item.acceptTime:'0'}}h</td>
                         <td :class="[list_arr_sort_items[2].type,index<3?'bold':'']">{{item.invitedRate}}%</td>
                         <td :class="[list_arr_sort_items[3].type,index<3?'bold':'']">{{item.visitedRate}}%</td>
-                        <td class="p_right" :class="[list_arr_sort_items[4].type,index<3?'bold':'']">{{item.dealRate}}%</td>
+                        <td :class="[list_arr_sort_items[4].type,index<3?'bold':'']">{{item.dealRate}}%</td>
                     </tr>
                 </table>
             </div>
         </div>
-        <div class="load_more" @click="load_more_event" v-if="list_limit==10&&res_data.length>10">
-            加载全部数据
-            <img src="https://dpmall-product.oss-cn-shenzhen.aliyuncs.com/zhuxiaobaoImg/fanhui-xia@3x.png" alt />
+        <div class="load_more" v-if="list_limit==10 && res_data.length>10">
+            <span @click="load_more_event">
+                加载全部数据
+                <img src="https://dpmall-product.oss-cn-shenzhen.aliyuncs.com/zhuxiaobaoImg/fanhui-xia@3x.png" alt />
+            </span>
         </div>
     </div>
 </template>
 
 <script>
 import API from '@/api/permission.js'
-
 import { mapState, mapMutations } from 'vuex'
+
 export default {
     name: "various-indicators",
     data() {
         return {
-            list_limit: 10,
-            list_type: 'daqu',
-            seach_data: {},
-            show_dt_index: 'none',
+            list_limit: 10, //显示条数
+            list_type: 'daqu', //大区名称
+            show_dt_index: 'none', // 大区点击显示全称 
             list_arr_sort_items: [
                 {
-                    th_name: '派单<br />数',
-                    name: 'paidCount',
+                    th_name: '派单数',
+                    name: 'paidCount', // 值为null时 不显示排序按钮
                     type: 'normal',
                 },
                 {
-                    th_name: '接单<br />时效',
+                    th_name: '接单时效',
                     name: 'acceptTime',
                     type: 'normal',
                 }, {
-                    th_name: '邀约<br />成功率',
+                    th_name: '邀约成功率',
                     name: 'invitedRate',
                     type: 'normal',
                 }, {
-                    th_name: '到店<br />成功率',
+                    th_name: '到店成功率',
                     name: 'visitedRate',
                     type: 'normal',
                 }, {
-                    th_name: '成交<br />率',
+                    th_name: '成交率',
                     name: 'dealRate',
                     type: 'normal',
                 }],
             res_data: [],
+
+            // 请求参数
+            orgId: '',
+            startDate: '',
+            endDate: '',
+            statistcsOrderType: ''
         }
     },
     computed: {
@@ -123,10 +126,10 @@ export default {
                     return '大区'
                     break;
                 case 'yingxiao':
-                    return '营销<br />部'
+                    return '营销部'
                     break;
                 case 'jingxiao':
-                    return '经销<br />部'
+                    return '经销部'
                     break;
                 case 'mendian':
                     return '门店'
@@ -138,6 +141,7 @@ export default {
                     return '城市'
                     break;
                 default:
+                    return '大区'
                     break;
             }
         },
@@ -161,40 +165,38 @@ export default {
                 case 'chengshi':
                     return '6'
                     break;
-
                 default:
+                    return '1'
                     break;
             }
         },
     },
     mounted() {
-        let _this = this;
-        // _this.getSorted({ startDate: "2019-07-18 00:00:00", endDate: "2019-07-24 23:59:59", statistcsOrderType: "3", orgId: 1279, orgName: "" });
-
-        /* this.$EventBus.$on("countDatasAll", function (params) {
-            console.log('$on("countDatasAll"', params)
-            _this.seach_data = params ? params : {}
-            _this.internalSortedOverView();
-        }); */
-        _this.seach_data = {
-            startDate: '2018-10-14 00:00:00',
-            endDate: '2019-10-14 00:00:00',
-            statistcsOrderType: '3',
-        }
-        _this.internalSortedOverView();
-
+        this.$EventBus.$on("countDatasAll", params => {
+            console.log('各项指标', params);
+            this.orgId = params.orgId;
+            this.startDate = params.startDate;
+            this.endDate = params.endDate;
+            this.statistcsOrderType = params.statistcsOrderType;
+            this.internalSortedOverView();
+        });
     },
     beforeDestroy() {
         this.$EventBus.$off("countDatasAll")
     },
     methods: {
+        // 切换大区/门店/城市等
         list_type_event(type) {
-            this.list_type = type
-            this.internalSortedOverView();
+            if (this.list_type != type) {
+                this.list_type = type
+                this.internalSortedOverView();
+            }
         },
+        // 加载更多
         load_more_event() {
-            this.list_limit = 99999999999999;
+            this.list_limit = 99999999;
         },
+        // 排序
         sort_list(index) {
             let res_data = this.res_data
             let type = this.list_arr_sort_items[index].type === 'down' ? 'up' : 'down'
@@ -215,63 +217,89 @@ export default {
                 }
             })
         },
+        // 请求表格数据
         internalSortedOverView() {
-            let _this = this;
-            let params = {}
-
-            _this.list_limit = 10;
-            _this.show_dt_index = 'none'
-
-            params.sortType = _this.searchArea;
-            params.startDate = _this.seach_data.startDate;
-            params.endDate = _this.seach_data.endDate;
-            params.statistcsOrderType = _this.seach_data.statistcsOrderType;
-            _this.list_arr_sort_items.forEach(element => {
+            let params = {
+                sortType: this.searchArea,
+                startDate: this.startDate,
+                endDate: this.endDate,
+                statistcsOrderType: this.statistcsOrderType
+            }
+            // 重置表格参数
+            this.list_limit = 10;
+            this.show_dt_index = 'none'
+            this.list_arr_sort_items.forEach(element => {
                 element.type = 'normal';
             });
+            // 请求数据
             API.internalSortedOverView(params).then(res => {
-                console.log(res);
-                let list_type = _this.list_type
-                _this.res_data = res ? res : []
-                _this.sort_list(0)
-            }).catch(function (error) {
-                console.log(error);
-                _this.res_data = []
-
+                this.res_data = res ? res : []
+                this.sort_list(0)
+            }).catch(err => {
+                console.log(err);
             })
         }
     }
 }
 </script>
 <style lang="scss" scoped>
-.container {
-    background: #fff;
-    margin-top: 20px;
-    padding: 50px 0px;
-    color: rgb(51, 51, 51);
-    .title {
-        font-size: 0.453333rem;
-        color: #333333;
+.various_indicators {
+    position: relative;
+    background-color: #fff;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 50px;
+    padding: 0 4px;
+    .titleName {
+        color: #606266;
         font-weight: 900;
-        margin-bottom: 15px;
-        padding: 0px 40px;
+        font-size: 20px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #dcdcdc;
+    }
+    .options_box {
+        position: absolute;
+        top: 24px;
+        right: 0;
+        .item {
+            display: inline-block;
+            font-size: 18px;
+            margin-right: 30px;
+            cursor: pointer;
+            user-select: none;
+            &.act {
+                position: relative;
+                color: $fe6a5f;
+                &::before {
+                    content: ' ';
+                    position: absolute;
+                    z-index: 0;
+                    width: 100%;
+                    height: 2px;
+                    left: 0;
+                    bottom: -4px;
+                    background: $fe6a5f;
+                }
+            }
+        }
+    }
+    .empty_data {
+        font-size: $f30;
+        width: 100%;
+        height: 250px;
+        color: #ccc;
+        line-height: 250px;
+        text-align: center;
     }
     .scroll_box {
         display: flex;
-        width: 100%;
         position: relative;
+        width: 100%;
 
         .table_1 {
-            width: 290px;
-            position: absolute;
-            z-index: 250;
-            // box-shadow: 38px 0px 18px 528px #38383838;
-            // box-shadow: 5px 0px 19px -5px #e2e2e2;
             table {
                 background: $ff;
-            }
-            tr {
-                box-shadow: 38px 0px 18px -28px #38383838;
             }
             .th_span_box {
                 padding-right: 10px;
@@ -286,81 +314,29 @@ export default {
             }
         }
         .table_2 {
-            overflow-y: auto;
-            padding-left: 290px;
             .table_css {
-                width: 750px;
                 border-spacing: 0;
                 table-layout: fixed;
                 border-collapse: collapse;
                 .th_span_box {
                     text-align: center;
+                    cursor: pointer;
+                    user-select: none;
                 }
                 td {
-                    padding: 0 20px;
-                    box-sizing: border-box;
-                    &.last {
-                        padding-right: 38px;
-                    }
+                    text-align: center;
                 }
             }
         }
     }
-    .options_box {
-        display: flex;
-        height: 60px;
-        width: 630px;
-        margin: 0 auto;
-        margin-top: 39px;
-        margin-bottom: 49px;
-        border-radius: 30px;
-        background: #eeeeee;
-        .item {
-            flex: 1;
-            text-align: center;
-            color: $c3;
-            width: 50%;
-            line-height: 60px;
-            font-size: $f30;
-            border-radius: 30px;
 
-            &.act {
-                position: relative;
-                background: $fe3a50;
-                color: $ff;
-                &::before {
-                    content: ' ';
-                    position: absolute;
-                    z-index: 0;
-                    width: 24px;
-                    height: 24px;
-                    left: 50%;
-                    bottom: 14px;
-                    transform: translateY(100%) translateX(-50%) rotate(45deg);
-                    background: $fe3a50;
-                    border-radius: 6px;
-                    // border-width: 12px;
-                    // border-style: solid;
-                    // border-color: $fe3a50 transparent transparent transparent;
-                }
-            }
-        }
-    }
-    .empty_data {
-        font-size: $f36;
-        width: 100%;
-        height: 250px;
-        color: #ccc;
-        line-height: 250px;
-        text-align: center;
-    }
     .table_css {
         width: 100%;
         // border-collapse: collapse;
         // border-spacing: 0;
         // table-layout: fixed;
         tr {
-            height: 89px;
+            height: 60px;
             &.first_tr {
                 font-size: $f28;
                 color: rgb(153, 153, 153);
@@ -369,7 +345,7 @@ export default {
                 background: rgb(238, 238, 238);
             }
             td {
-                font-size: $f30;
+                font-size: $f18;
                 position: relative;
                 text-align: left;
                 white-space: nowrap;
@@ -384,15 +360,8 @@ export default {
                     font-weight: bold;
                 }
                 &.p_left {
-                    max-width: 25px;
                     padding-left: 40px;
                     padding-right: 10px;
-                    span {
-                        padding-right: 5px;
-                    }
-                }
-                &.p_right {
-                    padding-right: 20px;
                     span {
                         padding-right: 5px;
                     }
@@ -407,19 +376,19 @@ export default {
                         // margin-right: 12px;
                         min-width: 96px;
                         img {
-                            width: 36px;
-                            height: 36px;
+                            width: 25px;
+                            height: 25px;
                             margin-right: 10px;
                         }
                         span {
                             // max-width: 48px;
 
                             color: $fe5057;
-                            font-size: $f24;
+                            font-size: $f18;
                         }
                     }
                     & > span {
-                        width: 98px;
+                        // width: 98px;
                         display: inline-block;
                         overflow: hidden;
                         text-overflow: ellipsis;
@@ -452,15 +421,18 @@ export default {
                     }
                 }
                 .th_span_box {
-                    display: flex;
-                    align-items: center;
+                    // display: flex;
+                    // align-items: center;
                     span {
                         text-align: center;
+                        vertical-align: middle;
                     }
                     .paixu_img {
-                        display: block;
-                        width: 20px;
-                        height: 25px;
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 16px;
+                        height: 20px;
+                        margin-left: 5px;
                         background-position: 50% 50%;
                         background-repeat: no-repeat;
                         background-size: contain;
@@ -485,16 +457,18 @@ export default {
     .load_more {
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: $f26;
-        color: $c3;
-        text-align: center;
+        justify-content: flex-end;
+        font-size: $f18;
+        color: $c6;
         margin: 38px 0;
         margin-bottom: 10px;
+        span {
+            cursor: pointer;
+        }
         img {
             margin-left: 10px;
-            width: 25px;
-            height: 14px;
+            width: 20px;
+            height: 10px;
         }
     }
 }

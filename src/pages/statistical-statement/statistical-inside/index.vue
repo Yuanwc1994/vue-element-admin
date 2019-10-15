@@ -53,7 +53,7 @@ export default {
                     onClick(picker) {
                         const end = new Date();
                         const start = new Date();
-                        start.setTime(start.getTime()- 3600 * 1000 * 24);
+                        start.setTime(start.getTime() - 3600 * 1000 * 24);
                         picker.$emit('pick', [start, end]);
                     }
                 }, {
@@ -116,6 +116,12 @@ export default {
             console.log(tab.index, tab.label);
             this.computdatas()
         },
+        // 全部/特权/意向 选择
+        handleCommand(command, tab) {
+            console.log(command, tab.$attrs.value);
+            this.orderType = command;
+            this.statistcsOrderType = tab.$attrs.value;
+        },
         //触发countDatas事件,数据总览的是countDatasAll,留资派单的是countDatasDispatch，跟进数据的是countDatasFollow
         computdatas() {
             let orgId = this.orgId
@@ -139,12 +145,7 @@ export default {
             console.log(evenName, orgId, startDate, endDate, statistcsOrderType);
             this.$EventBus.$emit(evenName, { startDate, endDate, statistcsOrderType, orgId });
         },
-        // 全部/特权/意向 选择
-        handleCommand(command, tab) {
-            console.log(command, tab.$attrs.value);
-            this.orderType = command;
-            this.statistcsOrderType = tab.$attrs.value;
-        },
+        // 查询
         query() {
             if (this.dateValue.length > 0) {
                 this.computdatas()

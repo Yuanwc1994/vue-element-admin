@@ -16,7 +16,7 @@ Vue.prototype.$http = axios
 // 创建事件总线
 Vue.prototype.$EventBus = new Vue();
 
-for (var key in globalFilter) {
+for (let key in globalFilter) {
     Vue.filter(key, globalFilter[key])
 }
 

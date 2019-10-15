@@ -166,8 +166,6 @@ export default {
 
         }
     },
-    created() {
-    },
     mounted() {
         this.$EventBus.$on("countDatasAll", params => {
             this.orgId = params.orgId;
@@ -266,12 +264,12 @@ export default {
     background-color: #fff;
     color: #666;
     font-size: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     padding: 0 4px;
     .titleName {
         color: #606266;
         font-weight: 900;
-        font-size: 18px;
+        font-size: 20px;
         padding: 20px;
         margin-bottom: 20px;
         border-bottom: 1px solid #dcdcdc;
@@ -414,7 +412,7 @@ export default {
                 // border-right: 1px solid rgba(153, 153, 153, 0.2); /* no */
                 box-sizing: border-box;
                 .percentage {
-                    font-size: 14px;
+                    font-size: 16px;
                 }
             }
             .item_ranking {

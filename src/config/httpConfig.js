@@ -4,7 +4,9 @@ import baseURL from './baseUrl'
 import { Message, Loading } from 'element-ui'
 const http = {}
 
-var instance = axios.create({
+let count = 0
+let loadingInstance
+let instance = axios.create({
     baseURL,
     validateStatus(status) {
         Message.closeAll()
@@ -55,6 +57,11 @@ var instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(
     function (config) {
+        count++
+        loadingInstance = Loading.service({
+            text: '加载中...',
+            background: 'rgba(0,0,0,0.5)'
+        });
         // 请求头添加token
         if (store.state.UserInfo) {
             config.headers["token"] = store.state.UserInfo.token
@@ -69,10 +76,18 @@ instance.interceptors.request.use(
 
 // 响应拦截器即异常处理
 instance.interceptors.response.use(
-    response => {
-        return response.data
+    function (response) {
+        count--
+        if (count === 0) {
+            loadingInstance.close()
+        }
+        return response.data || response
     },
-    err => {
+    function (err) {
+        count--
+        if (count === 0) {
+            loadingInstance.close()
+        }
         if (err && err.response) {
             console.log(err);
         } else {
@@ -95,33 +110,30 @@ http.get = function (url, options) {
         loading = document.getElementById('ajaxLoading')
         loading.style.display = 'block'
     } */
-    let loadingInstance = Loading.service({
+    /* let loadingInstance = Loading.service({
         text: '加载中...',
         background: 'rgba(0,0,0,0.5)'
-    });
+    }); */
     return new Promise((resolve, reject) => {
-        instance
-            .get(url, options)
-            .then(response => {
-                /* if (!options || options.isShowLoading !== false) {
-                    loading = document.getElementById('ajaxLoading')
-                    loading.style.display = 'none'
-                } */
-                loadingInstance.close();
-                if (response.resultCode === 200) {
-                    resolve(response.data)
-                } else {
-                    Message.error({
-                        message: response.message,
-                        duration: 2000
-                    })
-                    reject(response.message)
-                }
-            })
-            .catch(e => {
-                console.log(e)
-                loadingInstance.close();
-            })
+        instance.get(url, options).then(response => {
+            /* if (!options || options.isShowLoading !== false) {
+                loading = document.getElementById('ajaxLoading')
+                loading.style.display = 'none'
+            } */
+            // loadingInstance.close();
+            if (response.resultCode === 200) {
+                resolve(response.data)
+            } else {
+                Message.error({
+                    message: response.message,
+                    duration: 2000
+                })
+                reject(response.message)
+            }
+        }).catch(e => {
+            console.log(e)
+            // loadingInstance.close();
+        })
     })
 }
 
@@ -131,33 +143,30 @@ http.post = function (url, data, options) {
         loading = document.getElementById('ajaxLoading')
         loading.style.display = 'block'
     } */
-    let loadingInstance = Loading.service({
+    /* let loadingInstance = Loading.service({
         text: '加载中...',
         background: 'rgba(0,0,0,0.5)'
-    });
+    }); */
     return new Promise((resolve, reject) => {
-        instance
-            .post(url, data, options)
-            .then(response => {
-                /* if (!options || options.isShowLoading !== false) {
-                    loading = document.getElementById('ajaxLoading')
-                    loading.style.display = 'none'
-                } */
-                loadingInstance.close();
-                if (response.resultCode === 200) {
-                    resolve(response.data)
-                } else {
-                    Message.error({
-                        message: response.message,
-                        duration: 2000
-                    })
-                    reject(response.message)
-                }
-            })
-            .catch(e => {
-                console.log(e)
-                loadingInstance.close();
-            })
+        instance.post(url, data, options).then(response => {
+            /* if (!options || options.isShowLoading !== false) {
+                loading = document.getElementById('ajaxLoading')
+                loading.style.display = 'none'
+            } */
+            // loadingInstance.close();
+            if (response.resultCode === 200) {
+                resolve(response.data)
+            } else {
+                Message.error({
+                    message: response.message,
+                    duration: 2000
+                })
+                reject(response.message)
+            }
+        }).catch(e => {
+            console.log(e)
+            // loadingInstance.close();
+        })
     })
 }
 
