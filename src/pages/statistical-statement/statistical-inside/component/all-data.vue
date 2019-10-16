@@ -264,15 +264,18 @@ export default {
     background-color: #fff;
     color: #666;
     font-size: 14px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     padding: 0 4px;
+    border: 1px solid #E4E7ED;
+    border-radius: 10px;
+    overflow: auto;
     .titleName {
         color: #606266;
         font-weight: 900;
         font-size: 20px;
         padding: 20px;
         margin-bottom: 20px;
-        border-bottom: 1px solid #dcdcdc;
+        border-bottom: 1px solid #E4E7ED;
     }
     .content {
         display: flex;
@@ -282,7 +285,6 @@ export default {
         display: inline-block;
         min-width: 600px;
         height: 374px;
-        margin-bottom: 50px;
         clear: both;
         .funnel {
             position: absolute;

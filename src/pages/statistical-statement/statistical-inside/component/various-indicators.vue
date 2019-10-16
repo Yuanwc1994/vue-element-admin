@@ -10,9 +10,9 @@
             <div class="item" :class="{act:list_type==='chengshi'}" @click="list_type_event('chengshi')">城市</div>
         </div>
         <!-- <template>
-            <el-table :data="res_data" style="width: 100%" stripe max-height="650"
-                :default-sort="{prop: 'paidCount', order: 'descending'}" :cell-class-name="addColumnClass"
-                @header-click='headerClick' header-row-class-name='rowClass' :row-class-name="addRowClass">
+            <el-table :data="res_data" stripe max-height="650" :default-sort="{prop: 'paidCount', order: 'descending'}"
+                :cell-class-name="addColumnClass" @header-click='headerClick' header-row-class-name='rowClass'
+                :row-class-name="addRowClass" class="elTable">
                 <el-table-column type="index" :index='1'></el-table-column>
                 <el-table-column prop="orgName" :label="th1_name">
                     <template slot-scope="scope">
@@ -26,31 +26,31 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="paidCount" label="派单数" sortable :sort-orders="sortOrders"
-                    :sort-method="(a,b) => sortMethod(a ,b , 'paidCount')">
+                    :sort-method="(a,b) => sortMethod(a ,b , 'paidCount')" align="center">
                     <template slot-scope="scope">
                         <span>{{ scope.row.paidCount }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="acceptTime" label="接单时效" sortable :sort-orders="sortOrders"
-                    :sort-method="(a,b) => sortMethod(a ,b , 'acceptTime')">
+                    :sort-method="(a,b) => sortMethod(a ,b , 'acceptTime')" align="center">
                     <template slot-scope="scope">
                         <span>{{ scope.row.acceptTime }}h</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="invitedRate" label="邀约成功率" sortable :sort-orders="sortOrders"
-                    :sort-method="(a,b) => sortMethod(a ,b , 'invitedRate')">
+                    :sort-method="(a,b) => sortMethod(a ,b , 'invitedRate')" align="center">
                     <template slot-scope="scope">
                         <span>{{ scope.row.invitedRate }}%</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="visitedRate" label="到店成功率" sortable :sort-orders="sortOrders"
-                    :sort-method="(a,b) => sortMethod(a ,b , 'visitedRate')">
+                    :sort-method="(a,b) => sortMethod(a ,b , 'visitedRate')" align="center">
                     <template slot-scope="scope">
                         <span>{{ scope.row.visitedRate }}%</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="dealRate" label="成交率" sortable :sort-orders="sortOrders"
-                    :sort-method="(a,b) => sortMethod(a ,b , 'dealRate')">
+                    :sort-method="(a,b) => sortMethod(a ,b , 'dealRate')" align="center">
                     <template slot-scope="scope">
                         <span>{{ scope.row.dealRate }}%</span>
                     </template>
@@ -250,7 +250,6 @@ export default {
         },
         // 表格行添加样式
         addRowClass({ row, rowIndex }) {
-            console.log(1, row, rowIndex);
             if (rowIndex < 3) {
                 return 'rowClass fwbold'
             } else {
@@ -326,15 +325,17 @@ export default {
     background-color: #fff;
     color: #666;
     font-size: 14px;
-    margin-bottom: 50px;
-    padding: 0 4px;
+    margin-bottom: 20px;
+    padding: 0 4px 30px;
+    border: 1px solid #E4E7ED;
+    border-radius: 10px;
     .titleName {
         color: #606266;
         font-weight: 900;
         font-size: 20px;
         padding: 20px;
         margin-bottom: 20px;
-        border-bottom: 1px solid #dcdcdc;
+        border-bottom: 1px solid #E4E7ED;
     }
     .options_box {
         position: absolute;
@@ -373,7 +374,10 @@ export default {
     .scroll_box {
         display: flex;
         position: relative;
-        width: 100%;
+        right: 0;
+        left: 0;
+        margin: auto;
+        width: 95%;
 
         .table_1 {
             table {
@@ -538,10 +542,10 @@ export default {
         justify-content: flex-end;
         font-size: $f18;
         color: $c6;
-        margin: 38px 0;
-        margin-bottom: 10px;
+        margin: 10px 0 10px;
         span {
             cursor: pointer;
+            margin-right: 30px;
         }
         img {
             margin-left: 10px;
@@ -549,6 +553,10 @@ export default {
             height: 10px;
         }
     }
+}
+.elTable {
+    width: 95%;
+    margin: auto;
 }
 .cell {
     vertical-align: middle;
@@ -588,7 +596,7 @@ export default {
     }
     .descending {
         .sort-caret.descending {
-            border-top-color: $fe3a50;
+            border-top-color: #8d80be;
         }
     }
 }

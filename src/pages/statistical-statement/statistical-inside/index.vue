@@ -14,7 +14,8 @@
             </el-dropdown>
             <el-date-picker v-model="dateValue" type="daterange" align="center" unlink-panels range-separator="至"
                 start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" value-format='yyyy-MM-dd HH:mm:ss'
-                size="small">
+                size="small" 
+                >
             </el-date-picker>
             <span class="query_btn" @click="query()">查询</span>
         </div>
@@ -27,7 +28,15 @@
                 留资派单
             </el-tab-pane>
             <el-tab-pane label="跟进数据" name="2">
-                跟进数据
+                <div class="follow_warp">
+                    <div class="follow_left">
+
+                        <followUpData></followUpData>
+                    </div>
+                    <div class="follow_right">
+                        1
+                    </div>
+                </div>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -36,13 +45,15 @@
 <script>
 import { formatTime } from '@/filters/filters'
 import { mapState } from 'vuex'
-import variousIndicators from './component/various-indicators'
 import allData from './component/all-data'
+import variousIndicators from './component/various-indicators'
+import followUpData from './component/follow-up-data'
 export default {
     name: 'inside',
     components: {
+        allData,
         variousIndicators,
-        allData
+        followUpData,
     },
     data() {
         return {
@@ -90,7 +101,7 @@ export default {
                     }
                 }]
             },
-            activeName: '0', // 总览/留资/跟进 默认总览
+            activeName: '2', // 总览/留资/跟进 默认总览
             orderType: '全部', // 订单类型 名称
 
             orgId: "", //组织id
@@ -147,7 +158,7 @@ export default {
         },
         // 查询
         query() {
-            if (this.dateValue.length > 0) {
+            if (this.dateValue) {
                 this.computdatas()
             } else {
                 this.$message({
@@ -202,6 +213,17 @@ export default {
             border-radius: 4px;
             height: 33px;
             width: 105px;
+        }
+    }
+    .follow_warp {
+        display: flex;
+        justify-content: space-between;
+        .follow_left {
+            flex: 5;
+            margin-right: 20px;
+        }
+        .follow_right {
+            flex: 4;
         }
     }
 }
