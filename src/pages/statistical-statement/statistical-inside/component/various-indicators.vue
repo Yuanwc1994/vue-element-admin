@@ -9,6 +9,54 @@
             <div class="item" :class="{act:list_type==='daogou'}" @click="list_type_event('daogou')">导购</div>
             <div class="item" :class="{act:list_type==='chengshi'}" @click="list_type_event('chengshi')">城市</div>
         </div>
+        <!-- <template>
+            <el-table :data="res_data" style="width: 100%" stripe max-height="650"
+                :default-sort="{prop: 'paidCount', order: 'descending'}" :cell-class-name="addColumnClass"
+                @header-click='headerClick' header-row-class-name='rowClass' :row-class-name="addRowClass">
+                <el-table-column type="index" :index='1'></el-table-column>
+                <el-table-column prop="orgName" :label="th1_name">
+                    <template slot-scope="scope">
+                        <span>{{ scope.row.orgName }}</span>
+                        <span class="icon" v-if="list_type==='chengshi' && scope.row.isModel">
+                            <img class
+                                src="https://dpmall-product.oss-cn-shenzhen.aliyuncs.com/zhuxiaobaoNewImg/tj_icon_ybcs@2x.png"
+                                alt />
+                            <span>样板</span>
+                        </span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="paidCount" label="派单数" sortable :sort-orders="sortOrders"
+                    :sort-method="(a,b) => sortMethod(a ,b , 'paidCount')">
+                    <template slot-scope="scope">
+                        <span>{{ scope.row.paidCount }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="acceptTime" label="接单时效" sortable :sort-orders="sortOrders"
+                    :sort-method="(a,b) => sortMethod(a ,b , 'acceptTime')">
+                    <template slot-scope="scope">
+                        <span>{{ scope.row.acceptTime }}h</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="invitedRate" label="邀约成功率" sortable :sort-orders="sortOrders"
+                    :sort-method="(a,b) => sortMethod(a ,b , 'invitedRate')">
+                    <template slot-scope="scope">
+                        <span>{{ scope.row.invitedRate }}%</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="visitedRate" label="到店成功率" sortable :sort-orders="sortOrders"
+                    :sort-method="(a,b) => sortMethod(a ,b , 'visitedRate')">
+                    <template slot-scope="scope">
+                        <span>{{ scope.row.visitedRate }}%</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="dealRate" label="成交率" sortable :sort-orders="sortOrders"
+                    :sort-method="(a,b) => sortMethod(a ,b , 'dealRate')">
+                    <template slot-scope="scope">
+                        <span>{{ scope.row.dealRate }}%</span>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template> -->
         <div v-if="res_data.length===0" class="empty_data">暂无数据</div>
         <div class="scroll_box" v-if="res_data.length>0">
             <div class="table_1">
@@ -84,6 +132,9 @@ export default {
     name: "various-indicators",
     data() {
         return {
+            sortOrders: ['ascending', 'descending'], //el-table表格点击 升降循序
+            property: 'paidCount', //el-table表格 某列的样式 的条件 
+
             list_limit: 10, //显示条数
             list_type: 'daqu', //大区名称
             show_dt_index: 'none', // 大区点击显示全称 
@@ -185,6 +236,32 @@ export default {
         this.$EventBus.$off("countDatasAll")
     },
     methods: {
+        // 表格自定义排序
+        sortMethod(a, b, column) {
+            var at = Number(a[column])
+            var bt = Number(b[column])
+            return at - bt
+        },
+        // 表格某列添加样式
+        addColumnClass({ row, column, rowIndex, columnIndex }) {
+            if (column.property == this.property && columnIndex != 0 && columnIndex != 1) {
+                return 'redClass'
+            }
+        },
+        // 表格行添加样式
+        addRowClass({ row, rowIndex }) {
+            console.log(1, row, rowIndex);
+            if (rowIndex < 3) {
+                return 'rowClass fwbold'
+            } else {
+                return 'rowClass'
+            }
+        },
+        // 表格点击表头 列添加样式的判断条件
+        headerClick(column, event) {
+            this.property = column.property
+        },
+
         // 切换大区/门店/城市等
         list_type_event(type) {
             if (this.list_type != type) {
@@ -226,8 +303,9 @@ export default {
                 statistcsOrderType: this.statistcsOrderType
             }
             // 重置表格参数
-            this.list_limit = 10;
-            this.show_dt_index = 'none'
+            this.list_limit = 10; //表格最大行数
+            this.show_dt_index = 'none'  //大区hover标题隐藏
+            // this.property = '' // 列的颜色
             this.list_arr_sort_items.forEach(element => {
                 element.type = 'normal';
             });
@@ -469,6 +547,48 @@ export default {
             margin-left: 10px;
             width: 20px;
             height: 10px;
+        }
+    }
+}
+.cell {
+    vertical-align: middle;
+    .icon {
+        img {
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            margin-right: 2px;
+            vertical-align: middle;
+        }
+        span {
+            color: $fe5057;
+            font-size: $f14;
+            vertical-align: middle;
+        }
+    }
+}
+</style>
+<style lang="scss">
+.redClass {
+    color: $fe5057;
+}
+.rowClass {
+    font-size: 16px;
+}
+.fwbold {
+    .cell {
+        font-weight: bold;
+    }
+}
+.el-table {
+    .ascending {
+        .sort-caret.ascending {
+            border-bottom-color: $fe3a50;
+        }
+    }
+    .descending {
+        .sort-caret.descending {
+            border-top-color: $fe3a50;
         }
     }
 }

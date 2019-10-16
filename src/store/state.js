@@ -15,7 +15,7 @@ export default {
         localStorage.setItem('UserInfo', value)
     },
     /* 导航菜单是否折叠 */
-    isSidebarNavCollapse: false,
+    isSidebarNavCollapse: true,
     /* 面包屑导航列表 */
     crumbList: []
 }
