@@ -1,6 +1,6 @@
 <template>
     <div class="various_indicators">
-        <h3 class="titleName">各项指标排名</h3>
+        <h2 class="titleName">各项指标排名</h2>
         <div class="options_box">
             <div class="item" :class="{act:list_type==='daqu'}" @click="list_type_event('daqu')">大区</div>
             <div class="item" :class="{act:list_type==='yingxiao'}" @click="list_type_event('yingxiao')">营销部</div>

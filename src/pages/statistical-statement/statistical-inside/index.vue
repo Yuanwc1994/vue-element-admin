@@ -14,8 +14,7 @@
             </el-dropdown>
             <el-date-picker v-model="dateValue" type="daterange" align="center" unlink-panels range-separator="至"
                 start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" value-format='yyyy-MM-dd HH:mm:ss'
-                size="small" 
-                >
+                size="small">
             </el-date-picker>
             <span class="query_btn" @click="query()">查询</span>
         </div>
@@ -30,11 +29,11 @@
             <el-tab-pane label="跟进数据" name="2">
                 <div class="follow_warp">
                     <div class="follow_left">
-
+                        <lostReason></lostReason>
                         <followUpData></followUpData>
                     </div>
                     <div class="follow_right">
-                        1
+                        各类数据排名
                     </div>
                 </div>
             </el-tab-pane>
@@ -47,12 +46,14 @@ import { formatTime } from '@/filters/filters'
 import { mapState } from 'vuex'
 import allData from './component/all-data'
 import variousIndicators from './component/various-indicators'
+import lostReason from './component/lost-reason'
 import followUpData from './component/follow-up-data'
 export default {
     name: 'inside',
     components: {
         allData,
         variousIndicators,
+        lostReason,
         followUpData,
     },
     data() {
@@ -101,7 +102,7 @@ export default {
                     }
                 }]
             },
-            activeName: '2', // 总览/留资/跟进 默认总览
+            activeName: '0', // 总览/留资/跟进 默认总览
             orderType: '全部', // 订单类型 名称
 
             orgId: "", //组织id

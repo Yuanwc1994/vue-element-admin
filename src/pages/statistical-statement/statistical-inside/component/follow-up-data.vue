@@ -1,6 +1,6 @@
 <template>
     <div class="follow_up_data">
-        <div class="titleName">跟进数据情况</div>
+        <h2 class="titleName">跟进数据情况</h2>
         <div class="data_box">
             <div class="item">
                 <div class="value red">{{res.fllowingTitle?res.fllowingTitle:0}}</div>
@@ -90,7 +90,7 @@ export default {
             .value {
                 font-family: 'Akrobat-Regular';
                 color: $c3;
-                font-size: $f40;
+                font-size: $f38;
                 margin-bottom: 20px;
                 font-weight: bold;
                 &.red {
