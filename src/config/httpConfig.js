@@ -130,8 +130,9 @@ http.get = function (url, options) {
                 })
                 reject(response.message)
             }
-        }).catch(e => {
-            console.log(e)
+        }).catch(err => {
+            console.log(err)
+            reject(err);
             // loadingInstance.close();
         })
     })
@@ -163,8 +164,9 @@ http.post = function (url, data, options) {
                 })
                 reject(response.message)
             }
-        }).catch(e => {
-            console.log(e)
+        }).catch(err => {
+            console.log(err)
+            reject(err);
             // loadingInstance.close();
         })
     })
