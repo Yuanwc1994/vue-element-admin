@@ -93,10 +93,11 @@ instance.interceptors.response.use(
         } else {
             err.message = '连接服务器失败'
         }
-        Message.closeAll()
-        Message.error({
+        // 提示系统默认报错
+        /* Message.closeAll()  //关闭自定义报错提示
+        Message.error({  //统一系统报错提示
             message: err.message
-        })
+        }) */
         return Promise.reject(err.response)
     }
 )
@@ -132,7 +133,7 @@ http.get = function (url, options) {
             }
         }).catch(err => {
             console.log(err)
-            reject(err);
+            // reject(err);
             // loadingInstance.close();
         })
     })
@@ -166,7 +167,7 @@ http.post = function (url, data, options) {
             }
         }).catch(err => {
             console.log(err)
-            reject(err);
+            // reject(err);
             // loadingInstance.close();
         })
     })

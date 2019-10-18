@@ -32,4 +32,5 @@
   
    #### 温馨提示
    在新增vue页面的时候，热更新可能会失效，重启一下项目
+   如果路由报错Uncaught (in promise)，重新安装 cnpm i vue-router@3.0 -S即可
   
