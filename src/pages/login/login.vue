@@ -79,6 +79,7 @@ export default {
             }
         },
         async login() {
+            // let data = 'yuanwenji test login'
             try {
                 let params = {
                     username: this.loginForm.username,
